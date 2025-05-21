@@ -91,7 +91,7 @@ const ExecutionPanel = forwardRef(({ abortDisabled, setAbortDisabled }, ref) => 
                             </div>
                         </div>
                         {!abortDisabled && (
-                            <button class="btn btn-primary" onClick={abortSequence}>Abort</button>
+                            <button className="btn btn-primary" onClick={abortSequence}>Abort</button>
                         )}
                     </div>
 
