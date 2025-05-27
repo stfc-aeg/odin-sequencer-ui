@@ -43,21 +43,37 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 ```
 
 
-## Example
+## Examples
 
+### OdinSequencer module example
 ```js
-import { useRef, useEffect, useState } from 'react';
-import {
-  OdinSequencer,
-  OdinSequencerEndpoint,
-  OdinSequencerExecutionPanel,
-  OdinSequencerMessageLog,
-  OdinSequencerModuleList,
-  OdinSequencerSequenceButtons,
-  OdinSequencerSequenceTable
-} from 'odin-sequencer-react-ui';
+import { OdinSequencer } from 'odin-sequencer-react-ui';
 
 function App() {
+  return (
+    <>
+      <p>
+        (page loaded successfully)
+      </p>
+      <OdinSequencer />
+    </>
+  )
+}
+
+export default App
+```
+<img src="example/example_screenshots/OdinSequencer_module.png" alt="Web page view of example above" width="700">
+
+Using this module will import the entire Odin Sequencer UI with all of its functionality. You will not need to include anything other than this.
+
+
+### Seperate structured example
+```js
+import { useRef, useEffect, useState } from 'react';
+import { OdinSequencerSequenceTable, OdinSequencerEndpoint, OdinSequencerExecutionPanel, OdinSequencerMessageLog } from 'odin-sequencer-react-ui';
+
+function App() {
+
   const [sequenceModules, setSequenceModules] = useState({});
   const executionPanelRef = useRef(null);
   const [abortDisabled, setAbortDisabled] = useState(true);
@@ -69,46 +85,80 @@ function App() {
       })
       .catch(err => {
         console.error("Error fetching endpoint data:", err);
+        setError(err.message);
       });
   };
 
   useEffect(() => {
     fetchModules();
-  }, []);
+  }, [])
 
   return (
     <>
-      <p>(Page loaded successfully)</p>
+      <p>
+        (page loaded successfully)
+      </p>
       <div className="alert-box" id="alert-container"></div>
-      <OdinSequencer />
-      <OdinSequencerExecutionPanel
-        ref={executionPanelRef}
-        abortDisabled={abortDisabled}
-        setAbortDisabled={setAbortDisabled}
-      />
+      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} />
       <OdinSequencerMessageLog />
-      <OdinSequencerModuleList
-        sequence_modules={sequenceModules}
-        executionPanelRef={executionPanelRef}
-        setAbortDisabled={setAbortDisabled}
-      />
-      <OdinSequencerSequenceButtons
-        reloadModules={fetchModules}
-        executionPanelRef={executionPanelRef}
-        setAbortDisabled={setAbortDisabled}
-      />
-      <OdinSequencerSequenceTable
-        fetchModules={fetchModules}
-        sequenceModules={sequenceModules}
-        executionPanelRef={executionPanelRef}
-        setAbortDisabled={setAbortDisabled}
-      />
+      <OdinSequencerSequenceTable fetchModules={fetchModules} sequenceModules={sequenceModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
 ```
+<img src="example/example_screenshots/seperate_structured.png" alt="Web page view of example above" width="700">
+
+Using this example you can import the two cards seperately (the MessageLog and the SequenceTable). However, as discussed below, the ExecutionPanel is required for the SequenceTable to work.
+
+
+### Unstructured non-cards example
+```js
+import { useRef, useEffect, useState } from 'react';
+import { OdinSequencerEndpoint, OdinSequencerExecutionPanel, OdinSequencerModuleList, OdinSequencerSequenceButtons } from 'odin-sequencer-react-ui';
+
+function App() {
+
+  const [sequenceModules, setSequenceModules] = useState({});
+  const executionPanelRef = useRef(null);
+  const [abortDisabled, setAbortDisabled] = useState(true);
+
+  const fetchModules = () => {
+    return OdinSequencerEndpoint.get('')
+      .then(result => {
+        setSequenceModules(result.sequence_modules);
+      })
+      .catch(err => {
+        console.error("Error fetching endpoint data:", err);
+        setError(err.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchModules();
+  }, [])
+
+  return (
+    <>
+      <p>
+        (page loaded successfully)
+      </p>
+      <div className="alert-box" id="alert-container"></div>
+      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerModuleList sequence_modules={sequenceModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerSequenceButtons reloadModules={fetchModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
+    </>
+  )
+}
+
+export default App
+
+```
+<img src="example/example_screenshots/unstructured.png" alt="Web page view of example above" width="700">
+
+You are also able to import the components that make up cards as shown in the above example. However, components related to the SequenceTable may need ExecutionPanel for the executionPanelRef.
+
 
 ## API
 
@@ -199,6 +249,7 @@ OdinSequencerEndpoint.get('').then(...)
 
 > Note:
 > To enable alert rendering correctly, ensure the following is present in your HTML/JSX
+> (Not needed if using the OdinSequencer module)
 > ```jsx
 > <div className="alert-box" id="alert-container"></div>
 > ```
