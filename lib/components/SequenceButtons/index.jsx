@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMessageLog } from '../useMessageLog';
-import sequencer_endpoint from "../sequencerEndpoint";
 import { handleAlerts } from '../alertUtils';
 import { awaitExecutionComplete, awaitProcessExecutionComplete } from '../useMessageLog';
 
 import './styles.css';
 
-const SequenceButtons = ({ reloadModules, executionPanelRef, setAbortDisabled }) => {
-    const { displayLogMessages } = useMessageLog();
+const SequenceButtons = ({ reloadModules, executionPanelRef, setAbortDisabled, sequencer_endpoint }) => {
+    const { displayLogMessages } = useMessageLog(sequencer_endpoint);
     const hasLoaded = useRef(false);
     const [detectChanges, setDetectChanges] = useState(false);
     const pollingRef = useRef(false);

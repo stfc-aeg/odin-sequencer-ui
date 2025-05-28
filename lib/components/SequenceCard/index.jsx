@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button'
 import { useState, useRef, useEffect } from 'react'
 import { Modal } from 'react-bootstrap'
 import ModalParams from '../ModalParams'
-import sequencer_endpoint from "../sequencerEndpoint";
 import { handleAlerts } from '../alertUtils';
 import { useMessageLog, awaitExecutionComplete, awaitProcessExecutionComplete } from '../useMessageLog';
 
@@ -11,8 +10,8 @@ import './styles.css';
 
 /* Constructs a card for each sequence within the module */
 
-const SequenceCard = ({ sequence, header, row_title, executionPanelRef, setAbortDisabled }) => {
-  const { displayLogMessages } = useMessageLog();
+const SequenceCard = ({ sequence, header, row_title, executionPanelRef, setAbortDisabled, sequencer_endpoint }) => {
+  const { displayLogMessages } = useMessageLog(sequencer_endpoint);
   const [executionStarted, setExecutionStarted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const inputRefs = useRef(new Map());
