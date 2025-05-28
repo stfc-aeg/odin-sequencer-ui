@@ -6,7 +6,7 @@ import { awaitExecutionComplete, awaitProcessExecutionComplete } from '../useMes
 import './styles.css';
 
 const SequenceButtons = ({ reloadModules, executionPanelRef, setAbortDisabled, sequencer_endpoint }) => {
-    const { displayLogMessages } = useMessageLog(sequencer_endpoint);
+    const { displayLogMessages } = useMessageLog({ sequencer_endpoint });
     const hasLoaded = useRef(false);
     const [detectChanges, setDetectChanges] = useState(false);
     const pollingRef = useRef(false);

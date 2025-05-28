@@ -2,7 +2,7 @@ import { handleAlerts } from './alertUtils';
 
 let lastMessageTimestampRef = null;
 
-export const useMessageLog = (sequencer_endpoint) => {
+export const useMessageLog = ({ sequencer_endpoint }) => {
 
     const getLogMessages = () => {
         const payload = lastMessageTimestampRef ? { last_message_timestamp: lastMessageTimestampRef } : {};

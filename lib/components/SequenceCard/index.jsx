@@ -11,7 +11,7 @@ import './styles.css';
 /* Constructs a card for each sequence within the module */
 
 const SequenceCard = ({ sequence, header, row_title, executionPanelRef, setAbortDisabled, sequencer_endpoint }) => {
-  const { displayLogMessages } = useMessageLog(sequencer_endpoint);
+  const { displayLogMessages } = useMessageLog({ sequencer_endpoint });
   const [executionStarted, setExecutionStarted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const inputRefs = useRef(new Map());
