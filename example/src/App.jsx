@@ -1,6 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-//import { SequenceTable, sequencer_endpoint, SequencerDashboard, ExecutionPanel, MessageLog, ModuleList, SequenceButtons } from '/Users/williamcross/Tech/odin-sequencer/app/odin-sequencer-react-ui';
-//import { SequenceTable, sequencer_endpoint, SequencerDashboard, ExecutionPanel, MessageLog, ModuleList, SequenceButtons } from '/Users/williamcross/test/python/odin-sequencer-ui/odin-sequencer-ui';
 import { OdinSequencerSequenceTable, OdinSequencerEndpoint, OdinSequencer, OdinSequencerExecutionPanel, OdinSequencerMessageLog, OdinSequencerModuleList, OdinSequencerSequenceButtons } from 'odin-sequencer-react-ui';
 
 
