@@ -27,7 +27,6 @@ import components individually
 ```js
 import {
   OdinSequencer,
-  OdinSequencerEndpoint,
   OdinSequencerExecutionPanel,
   OdinSequencerMessageLog,
   OdinSequencerModuleList,
@@ -42,20 +41,30 @@ Ensure Bootstrap CSS is available in your app (either top level or where you use
 import 'bootstrap/dist/css/bootstrap.min.css'
 ```
 
+### Connecting to the sequencer endpoint
+
+When constructing sequencer_endpoint, you will notice `import.meta.env.VITE_SEQUENCER_ENDPOINT_URL`. This is a Vite reference to a .env file that looks something like this:
+`VITE_SEQUENCER_ENDPOINT_URL=URL` where URL is the URL of the sequencer endpoint.
+If you are not using Vite, you can either replace the import.meta.env with the URL or use .env with `process.env.VITE_SEQUENCER_ENDPOINT_URL`
+
+.env files go in the root of the app you are using this library in. They can have .local at the end and you can add *.local if you do not want to accidentally commit it.
+
 
 ## Examples
 
 ### OdinSequencer module example
 ```js
+import { useAdapterEndpoint } from 'odin-react';
 import { OdinSequencer } from 'odin-sequencer-react-ui';
 
 function App() {
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
   return (
     <>
       <p>
         (page loaded successfully)
       </p>
-      <OdinSequencer />
+      <OdinSequencer sequencer_endpoint={sequencer_endpoint} />
     </>
   )
 }
@@ -70,16 +79,19 @@ Using this module will import the entire Odin Sequencer UI with all of its funct
 ### Seperate structured example
 ```js
 import { useRef, useEffect, useState } from 'react';
-import { OdinSequencerSequenceTable, OdinSequencerEndpoint, OdinSequencerExecutionPanel, OdinSequencerMessageLog } from 'odin-sequencer-react-ui';
+import { useAdapterEndpoint } from 'odin-react';
+import { OdinSequencerSequenceTable, OdinSequencerExecutionPanel, OdinSequencerMessageLog } from 'odin-sequencer-react-ui';
 
 function App() {
+
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
 
   const [sequenceModules, setSequenceModules] = useState({});
   const executionPanelRef = useRef(null);
   const [abortDisabled, setAbortDisabled] = useState(true);
 
   const fetchModules = () => {
-    return OdinSequencerEndpoint.get('')
+    return sequencer_endpoint.get('')
       .then(result => {
         setSequenceModules(result.sequence_modules);
       })
@@ -99,9 +111,9 @@ function App() {
         (page loaded successfully)
       </p>
       <div className="alert-box" id="alert-container"></div>
-      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} sequencer_endpoint={sequencer_endpoint} />
       <OdinSequencerMessageLog />
-      <OdinSequencerSequenceTable fetchModules={fetchModules} sequenceModules={sequenceModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerSequenceTable fetchModules={fetchModules} sequenceModules={sequenceModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} sequencer_endpoint={sequencer_endpoint} />
     </>
   )
 }
@@ -116,16 +128,19 @@ Using this example you can import the two cards seperately (the MessageLog and t
 ### Unstructured non-cards example
 ```js
 import { useRef, useEffect, useState } from 'react';
-import { OdinSequencerEndpoint, OdinSequencerExecutionPanel, OdinSequencerModuleList, OdinSequencerSequenceButtons } from 'odin-sequencer-react-ui';
+import { useAdapterEndpoint } from 'odin-react';
+import { OdinSequencerExecutionPanel, OdinSequencerModuleList, OdinSequencerSequenceButtons } from 'odin-sequencer-react-ui';
 
 function App() {
+
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
 
   const [sequenceModules, setSequenceModules] = useState({});
   const executionPanelRef = useRef(null);
   const [abortDisabled, setAbortDisabled] = useState(true);
 
   const fetchModules = () => {
-    return OdinSequencerEndpoint.get('')
+    return sequencer_endpoint.get('')
       .then(result => {
         setSequenceModules(result.sequence_modules);
       })
@@ -145,9 +160,9 @@ function App() {
         (page loaded successfully)
       </p>
       <div className="alert-box" id="alert-container"></div>
-      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerExecutionPanel ref={executionPanelRef} abortDisabled={abortDisabled} setAbortDisabled={setAbortDisabled} sequencer_endpoint={sequencer_endpoint} />
       <OdinSequencerModuleList sequence_modules={sequenceModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
-      <OdinSequencerSequenceButtons reloadModules={fetchModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} />
+      <OdinSequencerSequenceButtons reloadModules={fetchModules} executionPanelRef={executionPanelRef} setAbortDisabled={setAbortDisabled} sequencer_endpoint={sequencer_endpoint} />
     </>
   )
 }
@@ -164,7 +179,14 @@ You are also able to import the components that make up cards as shown in the ab
 
 ### `OdinSequencer`
 A fully integrated dashboard that includes all the core components.  
-Use this if you want an all-in-one solution — no additional setup or props required.
+Use this if you want an all-in-one solution.
+
+**Requirements**
+
+However, you are still required to include
+```js
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
+```
 
 ---
 
@@ -181,35 +203,39 @@ Contains the execution bar and an abort button. Hidden by default — becomes vi
 **Required state/refs:**
 
 ```js
-const executionPanelRef = useRef(null);
-const [abortDisabled, setAbortDisabled] = useState(true);
+  const executionPanelRef = useRef(null);
+  const [abortDisabled, setAbortDisabled] = useState(true);
 ```
 
 ---
 
-### OdinSequencerModuleList
+### `OdinSequencerModuleList`
 Displays available sequence modules in a plain list/table format.
 
 **Required state/refs:**
+- Sequencer endpoint
 - Fetched sequence modules
 - A reference to the execution panel
 ```js
-const [sequenceModules, setSequenceModules] = useState({});
-const executionPanelRef = useRef(null);
-const [abortDisabled, setAbortDisabled] = useState(true);
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
+  const [sequenceModules, setSequenceModules] = useState({});
+  const executionPanelRef = useRef(null);
+  const [abortDisabled, setAbortDisabled] = useState(true);
 OdinSequencerExecutionPanel
 ```
 
 ---
 
-### OdinSequencerSequenceButtons
+### `OdinSequencerSequenceButtons`
 Provides "Reload" and "Detect Changes" controls for the sequence modules.
 Usually used alongside the module table.
 
 **Requires:**
+- Sequencer endpoint
 - fetchModules function
 - Execution panel reference
 ```js
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
   fetchModules();
   const executionPanelRef = useRef(null);
   const [abortDisabled, setAbortDisabled] = useState(true);
@@ -218,15 +244,17 @@ Usually used alongside the module table.
 
 ---
 
-### OdinSequencerSequenceTalbe
+### `OdinSequencerSequenceTalbe`
 Combines `OdinSequencerModuleList` and `OdinSequencerSequenceButtons` into a single card UI for interacting with sequences.
 Includes both the module display and control buttons.
 
 **Requires:**
+- Sequencer endpoint
 - Fetched module data
 - fetchModules function
 - Execution panel reference
 ```js
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
   fetchModules();
   const [sequenceModules, setSequenceModules] = useState({});
   const executionPanelRef = useRef(null);
@@ -236,13 +264,18 @@ Includes both the module display and control buttons.
 
 ---
 
-### OdinSequencerEndpoint
+### `sequencer_endpoint`
 Provides API access methods for interacting with the backend.
-Primarily used by your fetchModules function.
+Primarily used by your fetchModules function as well as modules listed.
 
-**Typical usage:**
+**Usage:**
 ```js
-OdinSequencerEndpoint.get('').then(...)
+import { useAdapterEndpoint } from 'odin-react';
+
+function App() {
+  const sequencer_endpoint = useAdapterEndpoint("odin_sequencer", import.meta.env.VITE_SEQUENCER_ENDPOINT_URL);
+  sequencer_endpoint.get('').then(...)
+}
 ```
 
 ---
