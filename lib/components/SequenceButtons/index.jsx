@@ -42,8 +42,8 @@ const SequenceButtons = ({ reloadModules, executionPanelRef, setAbortDisabled, s
                     // disable button toggle logic for abort TODO (false)
                     setAbort(false);
                     executionPanelRef.current?.displayExecution(result.execute);
-                    awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled);
-                    awaitProcessExecutionComplete(displayLogMessages);
+                    awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled, sequencer_endpoint);
+                    awaitProcessExecutionComplete(displayLogMessages, sequencer_endpoint);
                 }
                 else
                 {

@@ -53,8 +53,8 @@ const SequenceCard = ({ sequence, header, row_title, executionPanelRef, setAbort
           .catch((error) => {
             handleError(error);
           });
-          setTimeout(() => awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled), 250);
-          setTimeout(() => awaitProcessExecutionComplete(displayLogMessages), 500);
+          setTimeout(() => awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled, sequencer_endpoint), 250);
+          setTimeout(() => awaitProcessExecutionComplete(displayLogMessages, sequencer_endpoint), 500);
       })
       .catch((error) => {
         handleError(error);
@@ -68,8 +68,8 @@ const SequenceCard = ({ sequence, header, row_title, executionPanelRef, setAbort
       setAbort(false);
       setExecutionStarted(true);
       sequencer_endpoint.put({ 'execute': header }).catch(handleError);
-      setTimeout(() => awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled), 250);
-      setTimeout(() => awaitProcessExecutionComplete(displayLogMessages), 500);
+      setTimeout(() => awaitExecutionComplete(displayLogMessages, executionPanelRef, setAbortDisabled, sequencer_endpoint), 250);
+      setTimeout(() => awaitProcessExecutionComplete(displayLogMessages, sequencer_endpoint), 500);
     }
   };
 
