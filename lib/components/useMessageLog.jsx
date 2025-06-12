@@ -5,10 +5,11 @@ let lastMessageTimestampRef = null;
 export const useMessageLog = ({ sequencer_endpoint }) => {
 
     const getLogMessages = () => {
-        const payload = lastMessageTimestampRef ? { last_message_timestamp: lastMessageTimestampRef } : {};
+        const path = lastMessageTimestampRef
+            ? `log_messages?last_message_timestamp=${encodeURIComponent(lastMessageTimestampRef)}`
+            : 'log_messages';
 
-        return sequencer_endpoint.put(payload)
-            .then(() => sequencer_endpoint.get('log_messages'));
+        return sequencer_endpoint.get(path);
     };
 
     const displayLogMessages = () => {
