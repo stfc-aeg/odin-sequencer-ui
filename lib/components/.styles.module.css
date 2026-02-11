@@ -1,0 +1,177 @@
+.alert-bar {
+    padding-top: 18px;
+}
+
+.alert-box {
+    position: sticky;
+    z-index: 1040;
+    padding-top: 18px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.btn-info {
+    float: left;
+    line-height: 1rem !important;
+    font-size: 0.8rem !important;
+    height: 24px !important;
+    padding: 0.1rem !important;
+}
+
+.btn-success {
+    line-height: 1rem !important;
+    font-size: 0.8rem !important;
+    height: 24px !important;
+    padding: 0.1rem !important;
+}
+
+.btn-width {
+    width: 58px;
+}
+
+.card {
+    max-width: 184px;
+}
+
+.card-body {
+    border-radius: 0px;
+    padding: 4px !important;
+    width: 184px;
+    height: 55px;
+}
+
+.card-header {
+    color: #007bff;
+}
+
+.card-new {
+    max-width: 170px;
+    min-width: 210px;
+}
+
+.card-title {
+    font-size: 0.9rem !important;
+    text-align: center;
+}
+
+.col-card {
+    padding-top: 4px;
+    max-width: 220px;
+}
+
+.ui-card {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+
+.ui-card-body {
+    padding: 8px;
+}
+
+.ui-card-header {
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left {
+    width: 58%;
+    min-width: 400px;
+    padding-right: 12px;
+    padding-left: 24px;
+}
+
+.right {
+    width: 42%;
+    padding-left: 24px;
+    padding-right: 12px;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.sticky {
+    height: 100%;
+    width: 48%;
+    float:right;
+    position: fixed;
+}
+
+.custom-row-border {
+    margin-right:0px;
+    margin-left: 0px;
+}
+
+.col {
+    max-width: 184px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.col-sm-7 {
+    width: 100% !important;
+}
+
+.accordion-body {
+    padding: 0px !important;
+}
+
+.accordion-button {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+    gap: 50px;
+    margin: 0 auto;
+}
+
+.execute-btn {
+    float: right;
+}
+
+.message-box {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.pre-scrollable {
+    background-color: #f7f7f7;
+    border: 1px solid black;
+    white-space: pre-wrap;
+    height: 600px;
+}
+
+.progress-container {
+    margin-left: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    background-color: white;
+}
+
+@media (max-width: 768px) {
+    .left,
+    .right {
+        width: 100%;
+    }
+}
