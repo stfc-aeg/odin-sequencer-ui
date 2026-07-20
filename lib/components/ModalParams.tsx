@@ -1,11 +1,20 @@
 import { Row , Col, Form } from "react-bootstrap"
-import { WithEndpoint } from "odin-react";
+import { WithEndpoint } from '@dssg/odin-react';
+import type { AdapterEndpoint } from '@dssg/odin-react';
+import { SequencerTypes, SequenceModuleParamTypes } from './EndpointTypes';
+
+interface ModalParamsProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+  sequenceConfig: SequenceModuleParamTypes;
+  sequenceName: string;
+  moduleName: string;
+}
 
 /* Constructing the labels and input boxes for the parameters inside the modal. */
 const EndpointFormControl = WithEndpoint(Form.Control);
 const EndpointFormCheck = WithEndpoint(Form.Check);
 
-function ModalParams ({endpoint, sequenceConfig, sequenceName, moduleName}) {
+function ModalParams ({endpoint, sequenceConfig, sequenceName, moduleName} : ModalParamsProps) {
   return (
     <Form>
       {Object.entries(sequenceConfig).map(([paramKey, param]) => {

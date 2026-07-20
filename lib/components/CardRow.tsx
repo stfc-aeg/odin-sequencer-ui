@@ -1,11 +1,19 @@
+import { AdapterEndpoint } from '@dssg/odin-react';
 import SequenceCard from "./SequenceCard";
 import { Col } from "react-bootstrap";
+import { SequencerTypes, SequenceModuleTypes, SequenceModuleParamTypes } from "./EndpointTypes";
 
 /* Creates a row within the accordion, for each sequence to go into. */
 
-const CardRow = ({ endpoint, sequences, moduleName }) => {
+interface CardRowProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+  sequences: SequenceModuleTypes;
+  moduleName: string;
+}
 
-  const sequenceEntries = Object.entries(sequences);
+const CardRow = ({ endpoint, sequences, moduleName } : CardRowProps) => {
+
+  const sequenceEntries = Object.entries(sequences) as [string, SequenceModuleParamTypes][];
 
   const cards = sequenceEntries.map(([sequenceName, sequenceConfig]) => (
     <Col key={sequenceName} xs={4} className="mb-2">

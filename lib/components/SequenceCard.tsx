@@ -1,13 +1,22 @@
 import { useState } from 'react'
 import { Button, Modal, Col, Row } from 'react-bootstrap';
-import { TitleCard, WithEndpoint } from 'odin-react';
+import { TitleCard, WithEndpoint } from '@dssg/odin-react';
 import ModalParams from './ModalParams'
+import type { AdapterEndpoint } from '@dssg/odin-react';
+import { SequencerTypes, SequenceModuleParamTypes } from './EndpointTypes';
 
 /* Constructs a card for each sequence within the module */
 
+interface SequenceCardProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+  moduleName: string;
+  sequenceName: string;
+  sequenceConfig: SequenceModuleParamTypes;
+}
+
 const EndpointButton = WithEndpoint(Button);
 
-const SequenceCard = ({ endpoint, moduleName, sequenceName, sequenceConfig }) => {
+const SequenceCard = ({ endpoint, moduleName, sequenceName, sequenceConfig } : SequenceCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const readableSeqName = String(sequenceName).replaceAll("_", " ");
 

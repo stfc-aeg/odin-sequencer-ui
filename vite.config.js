@@ -26,7 +26,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'bootstrap', 'react-bootstrap', 'odin-react'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'bootstrap', 'react-bootstrap', '@dssg/odin-react'],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{js,jsx}', {
           ignore: ["lib/**/*.d.js"],
