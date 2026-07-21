@@ -4,12 +4,12 @@ import { SequencerTypes } from './EndpointTypes';
 
 interface SequenceButtonsProps {
   endpoint: AdapterEndpoint<SequencerTypes>;
-  onReload: (args: unknown) => void;
+  onReload?: (args: unknown) => void;
 }
 
 const EndpointCheck = WithEndpoint(Form.Check);
 
-// The optional onReload function here should simply 
+// The optional onReload function here should simply increment for integration with ReloadUpdate.tsx
 const SequenceButtons = ({ endpoint, onReload } : SequenceButtonsProps) => {
 
     return (

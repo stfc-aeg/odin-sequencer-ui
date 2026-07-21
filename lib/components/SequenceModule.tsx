@@ -28,6 +28,4 @@ const SequenceModule = ({ endpoint, moduleName, sequences }: SequenceModuleProps
   )
 }
 
-//Look into odin-react title card
-
 export default SequenceModule

@@ -8,7 +8,7 @@ import { SequencerTypes } from './EndpointTypes';
 
 interface SequenceTableProps {
   endpoint: AdapterEndpoint<SequencerTypes>;
-  onReload: (args: unknown) => void;
+  onReload?: (args: unknown) => void;
 }
 
 const SequenceTable = ({ endpoint, onReload }: SequenceTableProps) => {
