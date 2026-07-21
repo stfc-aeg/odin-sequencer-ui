@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { OdinApp } from '@dssg/odin-react';
-import { OdinSequencer } from 'odin-sequencer-react-ui';
+import { OdinSequencer } from 'odin-sequencer-ui';
 
 function App() {
-    
+
     const endpoint_url = import.meta.env.VITE_ENDPOINT_URL;
 
     const navLinks = ["Sequencer"]
