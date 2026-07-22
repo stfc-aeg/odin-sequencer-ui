@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Fade from 'react-bootstrap/Fade';
+import type { AdapterEndpoint } from '@dssg/odin-react';
+import { SequencerTypes } from './EndpointTypes';
+
+interface ModuleModificationsDetectedProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+}
 
 // This function shows an alert indicating if the reload was successful
 // As such, it requires a prop that is updated when you reload the sequencer (see SequenceButtons)
 // Without this, it cannot know if it has updated or not as polling the endpoint will show the 
 // display at all times, which is not correct.
-function ModuleModificationsDetected({ endpoint }) {
+function ModuleModificationsDetected({ endpoint } : ModuleModificationsDetectedProps) {
 
-  const isModified = endpoint.data?.module_modifications_detected;
+  const isModified = endpoint.data?.module_modifications_detected ?? false;
 
   const [hide, setHide] = useState(false);
 
@@ -19,11 +25,12 @@ function ModuleModificationsDetected({ endpoint }) {
   if (!hide) return null;
 
   return (
-    <Fade in={isModified} out={!isModified}>
+    <Fade in={isModified}>
       <div>
         <Alert
           variant='warning'
-          dismissible={() => setHide(true) }
+          dismissible
+          onClose={() => setHide(true)}
           className="mt-2 w-100"
         >
           Code changes were detected, click the reload button to load them.

@@ -1,11 +1,16 @@
 import { Button, Form, Stack } from 'react-bootstrap';
-import { WithEndpoint } from 'odin-react';
+import { WithEndpoint, type AdapterEndpoint, EndpointButton } from '@dssg/odin-react';
+import { SequencerTypes } from './EndpointTypes';
+
+interface SequenceButtonsProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+  onReload?: (args: unknown) => void;
+}
 
 const EndpointCheck = WithEndpoint(Form.Check);
-const EndpointButton = WithEndpoint(Button);
 
-// The optional onReload function here should simply 
-const SequenceButtons = ({ endpoint, onReload }) => {
+// The optional onReload function here should simply increment for integration with ReloadUpdate.tsx
+const SequenceButtons = ({ endpoint, onReload } : SequenceButtonsProps) => {
 
     return (
       <Form>

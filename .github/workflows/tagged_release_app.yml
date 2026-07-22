@@ -1,0 +1,61 @@
+name: tagged_release_app
+run-name: Build demo app and publish with a tagged release
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build demo app
+        run: npm run build
+
+      - name: Create TGZ archive
+        run: tar -czf app_build.tgz dist
+
+      - name: Create ZIP archive
+        run: zip -r app_build.zip dist
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Create library TGZ
+        run: tar -czf library_build.tgz dist-lib
+
+      - name: Create library ZIP
+        run: zip -r library_build.zip dist-lib
+
+      - name: List built files
+        run: ls -lR dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app_build.tgz
+            app_build.zip
+            library_build.tgz
+            library_build.zip

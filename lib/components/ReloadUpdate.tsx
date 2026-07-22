@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Fade from 'react-bootstrap/Fade';
+import { Alert, Fade } from 'react-bootstrap';
+import type { AdapterEndpoint } from '@dssg/odin-react';
+import { SequencerTypes } from './EndpointTypes';
+
+interface ReloadUpdateProps {
+  endpoint: AdapterEndpoint<SequencerTypes>;
+  reloadTrigger: number;
+}
 
 // This function shows an alert indicating if the reload was successful
 // As such, it requires a prop that is updated when you reload the sequencer (see SequenceButtons)
 // Without this, it cannot know if it has updated or not as polling the endpoint will show the 
 // display at all times, which is not correct.
-function ReloadUpdate({ endpoint, reloadTrigger }) {
+function ReloadUpdate({ endpoint, reloadTrigger } : ReloadUpdateProps ) {
 
   const isSuccess = endpoint.data?.reload?.success;
   const status = endpoint.data?.reload?.status;
@@ -23,7 +29,7 @@ function ReloadUpdate({ endpoint, reloadTrigger }) {
     setOpen(true);
     setLastTrigger(reloadTrigger);
 
-    let timer;
+    let timer: number | undefined;
     if (isSuccess) {
       timer = setTimeout(() => {
         setOpen(false);  // Fade out
@@ -39,7 +45,7 @@ function ReloadUpdate({ endpoint, reloadTrigger }) {
   if (!visible) return null;
 
   return (
-    <Fade in={open} out={!open}>
+    <Fade in={open}>
       <div>
         <Alert
           variant={isSuccess ? 'success':'danger'}

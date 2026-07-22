@@ -1,6 +1,11 @@
 import * as bootstrap from 'bootstrap';
 
-export const handleAlerts = (alert) => {
+interface Alert {
+    alert_type: string;
+    alert_message: string;
+}
+
+export const handleAlerts = (alert: Alert) => {
     const container = document.getElementById("alert-container");
     if (container) {
         container.innerHTML = `
