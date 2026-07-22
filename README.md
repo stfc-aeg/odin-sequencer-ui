@@ -9,10 +9,10 @@ Add to your `package.json` dependencies:
 ```json
 "dependencies": {
   "bootstrap": "^5.3.6",
-  "odin-react": "github:stfc-aeg/odin-react",
-  "react": "^18.3.1",
+  "odin-react": "@dssg/odin-react",
+  "react": "^19.1.2",
   "react-bootstrap": "^2.10.10",
-  "react-dom": "^18.3.1",
+  "react-dom": "^19.1.2",
   "odin-sequencer-ui": "github:stfc-aeg/odin-sequencer-ui"
 }
 ```
@@ -20,6 +20,10 @@ You can refer to a specific version with `#x.x.x` on the end, matching a version
 
 Then install using `npm install`.
 
+## Repo layout
+
+Components can be found in `lib/components`.  
+A standalone version of the app can be found in `src/`. The built code provided with a release will be a version of this app that can be run alone to use the components.
 
 ## Basic Usage
 
