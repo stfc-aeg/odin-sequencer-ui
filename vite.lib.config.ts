@@ -1,31 +1,26 @@
 import { defineConfig } from 'vite'
-import { extname, relative, resolve } from 'path'
-import { fileURLToPath } from 'node:url'
-import { glob } from 'glob'
-
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
+import { resolve } from 'node:path'
 
 export default defineConfig({
   plugins: [
     react(),
-    libInjectCss(),
     dts({
       include: ['lib'],
-      outDir: 'dist-lib',
     }),
   ],
   resolve: {
     dedupe: ['react', 'react-dom'],
   },
   build: {
-    outDir: 'dist-lib',
-    minify: false,
+    outDir: 'dist',
+    emptyOutDir: true,
     lib: {
       entry: resolve(__dirname, 'lib/index.js'),
-      fileName: 'index',
-      formats: ['es'],
+      name: 'OdinSequencer',
+      formats: ['es', 'cjs'],
+      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
     rollupOptions: {
       external: [
@@ -36,31 +31,6 @@ export default defineConfig({
         'react-bootstrap',
         '@dssg/odin-react',
       ],
-      input: Object.fromEntries(
-        glob
-          .sync('lib/**/*.{js,jsx}', {
-            ignore: ['lib/**/*.d.js'],
-          })
-          .map(file => [
-            relative(
-              'lib',
-              file.slice(0, file.length - extname(file).length)
-            ),
-            fileURLToPath(new URL(file, import.meta.url)),
-          ])
-      ),
-
-      output: {
-        assetFileNames: 'assets/[name][extname]',
-        entryFileNames: '[name].js',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-        exports: 'named',
-      },
     },
-
-    copyPublicDir: false,
   },
 })
