@@ -39,15 +39,6 @@ jobs:
       - name: Create ZIP archive
         run: zip -r app_build.zip dist
 
-      - name: Build library
-        run: npm run build:lib
-
-      - name: Create library TGZ
-        run: tar -czf library_build.tgz dist-lib
-
-      - name: Create library ZIP
-        run: zip -r library_build.zip dist-lib
-
       - name: List built files
         run: ls -lR dist
 
@@ -57,5 +48,3 @@ jobs:
           files: |
             app_build.tgz
             app_build.zip
-            library_build.tgz
-            library_build.zip
