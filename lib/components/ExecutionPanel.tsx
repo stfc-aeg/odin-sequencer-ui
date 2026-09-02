@@ -17,17 +17,19 @@ function ExecutionPanel({ endpoint }: ExecutionPanelProps) {
   const progress = endpoint.data?.execution_progress;
 
   // Pretty reading of module and sequence name without needing args or refs passed around
-  const parseExecutePath = (execute: string) => {
-    if (!execute || typeof execute !== 'string') { return { module: '', sequence: '' }; }
+  const parseExecutePath = (execute: unknown) => {
+    const executePath = typeof execute === 'string' ? execute : '';
+    if (!executePath) { return { module: '', sequence: '' }; }
+
     // Execute should look like module_name/sequence_name
-    const parts = execute.split('/');
+    const parts = executePath.split('/');
     const module = parts[0]?.replaceAll('_', ' ') ?? '';
     const sequence = parts[1]?.replaceAll('_', ' ') ?? '';
 
     return { module, sequence };
   }
 
-  const { module, sequence } = parseExecutePath(endpoint.data?.execute ?? '');
+  const { module, sequence } = parseExecutePath(endpoint.data?.execute);
 
   // abort button handling
   useEffect(() => {
